@@ -1,12 +1,12 @@
+import { DeleteFilled } from "@ant-design/icons";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { logOut } from "../../redux/reducers/auth/ActionCreators";
 import {
   deleteTodo,
   loadTodos,
   updateTodo,
 } from "../../redux/reducers/todos/ActionCreators";
-import AddTodo from "../Form/AddTodo.";
+import styles from './todos.module.scss'
 
 const Todos = () => {
   const dispatch = useAppDispatch();
@@ -27,35 +27,29 @@ const Todos = () => {
     dispatch(updateTodo({ todoId, completed }));
   };
 
-  const handleExitAccount = () => {
-    dispatch(logOut());
-  };
-
   if (!token) {
     return <div>сначала войдите в аккаунт</div>;
   }
 
   return (
-    <div>
-      <button onClick={handleExitAccount}>exit</button>
-      <AddTodo />
+    <>
       {loading && <div>loading...</div>}
       {error && <div>{error}</div>}
       {!todos.length && !loading && <div>У вас еще нет дел!</div>}
       {todos.map((todo) => {
         return (
-          <div key={todo._id}>
+          <div key={todo._id} className={styles.todo}>
             <input
               type="checkbox"
               checked={todo.completed}
               onChange={() => handleCheckedTodo(todo._id, todo.completed)}
             />
-            <span>{todo.text}</span>
-            <button onClick={() => handleDeleteTodo(todo._id)}>x</button>
+            <p>{todo.text}</p>
+            <span onClick={() => handleDeleteTodo(todo._id)}><DeleteFilled /></span>
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
 

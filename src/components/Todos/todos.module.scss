@@ -1,0 +1,29 @@
+$swatch_1: #cfd4e2;
+$swatch_2: #09143e;
+$swatch_3: #bebde0;
+$swatch_4: #a1a6c5;
+$swatch_5: #eaecee;
+$swatch_6: #ad9eed;
+$swatch_7: #45475b;
+$swatch_8: #9669a1;
+
+.todo {
+  height: 4vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2vh;
+  margin: 2vh 0;
+  border-radius: 2vh;
+
+  &:hover {
+    background-color: $swatch_6;
+    color: $swatch_5;
+  }
+
+  p {
+    margin: 0 2vh;
+    flex: 1;
+    font-size: 18px;
+  }
+}

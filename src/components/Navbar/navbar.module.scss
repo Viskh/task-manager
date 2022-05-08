@@ -1,0 +1,22 @@
+$swatch_1: #cfd4e2;
+$swatch_2: #09143e;
+$swatch_3: #bebde0;
+$swatch_4: #a1a6c5;
+$swatch_5: #959db0;
+$swatch_6: #6d5bcd;
+$swatch_7: #45475b;
+$swatch_8: #9669a1;
+
+.navbar {
+  width: 20%;
+  height: 100%;
+  padding: 1%;
+  border-radius: inherit;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  li {
+    margin: 20px 0;
+  }
+}
