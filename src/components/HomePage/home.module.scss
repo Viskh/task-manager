@@ -1,11 +1,8 @@
-$swatch_1: #cfd4e2;
-$swatch_2: #09143e;
-$swatch_3: #eff5fa;
-$swatch_4: #a1a6c5;
-$swatch_5: #959db0;
-$swatch_6: #6d5bcd;
-$swatch_7: #45475b;
-$swatch_8: #9669a1;
+$window_bg: #cfd4e2;
+$display_bg: #20212c;
+$main_bg: #17181f;
+$font_color: #cfd4e2;
+$hover_color: #1e0f30;
 
 .display {
   width: 100%;
@@ -13,16 +10,16 @@ $swatch_8: #9669a1;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: $swatch_1;
+  background-color: $window_bg;
 }
 
 .container {
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: $swatch_2;
-  border-radius: 3vh;
+  background-color: $display_bg;
+/*   border-radius: 3vh; */
   padding: 0.5%;
 }

@@ -1,17 +1,15 @@
-$swatch_1: #cfd4e2;
-$swatch_2: #09143e;
-$swatch_3: #eff5fa;
-$swatch_4: #8c8fa3;
-$swatch_5: #959db0;
-$swatch_6: #6d5bcd;
-$swatch_7: #45475b;
-$swatch_8: #9669a1;
+$window_bg: #cfd4e2;
+$display_bg: #20212c;
+$main_bg: #17181f;
+$font_color: #cfd4e2;
+$hover_color: #1e0f30;
+
 
 .main__container {
   width: 80%;
   height: 100%;
-  background-color: $swatch_3;
-  color: $swatch_4;
+  background-color: $main_bg;
+  color: $font_color;
   border-radius: 2.3vh;
   padding: 2%;
 
@@ -20,7 +18,8 @@ $swatch_8: #9669a1;
   }
 
   .todo__list {
-    padding: 2vh;
+    width: 80%;
+    margin: auto;
     position: relative;
   }
 }

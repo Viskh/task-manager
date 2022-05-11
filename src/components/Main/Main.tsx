@@ -9,7 +9,7 @@ const Main = () => {
       <h1>Категория</h1>
       <div className={styles.todo__list}>
         <Todos />
-        <AddTodo />
+       {/*  <AddTodo /> */}
       </div>
     </div>
   );
