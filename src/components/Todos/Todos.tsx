@@ -40,11 +40,12 @@ const Todos = () => {
         return (
           <div key={todo._id} className={styles.todo}>
             <input
+            className={styles.checkbox}
               type="checkbox"
               checked={todo.completed}
               onChange={() => handleCheckedTodo(todo._id, todo.completed)}
             />
-            <p>{todo.text}</p>
+            <p className={styles.todo__text} >{todo.text}</p>
             <span onClick={() => handleDeleteTodo(todo._id)}><DeleteFilled /></span>
           </div>
         );
