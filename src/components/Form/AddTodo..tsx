@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { createTodo } from '../../redux/reducers/todos/ActionCreators';
+import styles from './addForm.module.scss'
 
 const AddTodo = () => {
   const dispatch = useAppDispatch()
@@ -21,7 +22,7 @@ const AddTodo = () => {
   }
 
   return (
-    <div>
+    <div className={styles.add__todo__form}>
       <input value={todoText} type="text" onChange={(e) => handleTodoText(e)}/>
       <button onClick={handleSendTodo}>add</button>
     </div>
