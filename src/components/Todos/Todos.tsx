@@ -45,7 +45,7 @@ const Todos = () => {
               checked={todo.completed}
               onChange={() => handleCheckedTodo(todo._id, todo.completed)}
             />
-            <p className={styles.todo__text} >{todo.text}</p>
+            <p className={styles.todo__text} data-content={todo.text}>{todo.text}</p>
             <span onClick={() => handleDeleteTodo(todo._id)}><DeleteFilled /></span>
           </div>
         );
