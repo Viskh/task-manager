@@ -7,11 +7,14 @@ $hover_color: #1e0f30;
 
 .main__container {
   width: 80%;
-  height: 100%;
+  /* min-height: 100vh; */
+  min-height: 100%;
   background-color: $main_bg;
   color: $font_color;
   border-radius: 2.3vh;
   padding: 2%;
+  box-sizing: border-box;
+  
 
   h1 {
     border-bottom: 1px solid;
@@ -19,8 +22,14 @@ $hover_color: #1e0f30;
 
   .todo__list {
     width: 80%;
-    height: 100%;
+    max-height: 80vh;
     margin: auto;
-    position: relative;
+    overflow: auto;
+
+    button {
+      position: absolute;
+      bottom: 10vh;
+      right: 10vh;
+    }
   }
 }
