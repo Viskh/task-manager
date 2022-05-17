@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:600&display=swap');
 
+$font_color: #cfd4e2;
+
 * {
   margin: 0;
   padding: 0;
@@ -19,6 +21,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: $font_color;
 }
 
 #root {

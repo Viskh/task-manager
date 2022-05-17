@@ -1,24 +1,30 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const loadTodos = createAsyncThunk("todos/load", async (id: string | null, thunkApi) => {
-  const state: any = thunkApi.getState();
-  try {
-    const res = await fetch(`/todos/${id}`, {
-      headers: {
-        Authorization: `Bearer ${state.userSlice.token}`,
-      },
-    });
+export const loadTodos = createAsyncThunk(
+  "todos/load",
+  async (id: string | null, thunkApi) => {
+    const state: any = thunkApi.getState();
+    try {
+      const res = await fetch(`/todos/${id}`, {
+        headers: {
+          Authorization: `Bearer ${state.userSlice.token}`,
+        },
+      });
 
-    const todos = await res.json();
-    return thunkApi.fulfillWithValue(todos);
-  } catch (e) {
-    return thunkApi.rejectWithValue(e);
+      const todos = await res.json();
+      return thunkApi.fulfillWithValue(todos);
+    } catch (e) {
+      return thunkApi.rejectWithValue(e);
+    }
   }
-});
+);
 
 export const createTodo = createAsyncThunk(
   "todo/create",
-  async (data: { todoText: string; id: string | null }, thunkApi) => {
+  async (
+    data: { todoTitle: string; todoText: string; id: string | null },
+    thunkApi
+  ) => {
     const state: any = thunkApi.getState();
 
     try {
@@ -28,7 +34,11 @@ export const createTodo = createAsyncThunk(
           Authorization: `Bearer ${state.userSlice.token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text: data.todoText, user: data.id }),
+        body: JSON.stringify({
+          title: data.todoTitle,
+          text: data.todoText,
+          user: data.id,
+        }),
       });
 
       const todo = await res.json();
@@ -46,13 +56,13 @@ export const deleteTodo = createAsyncThunk(
     const state: any = thunkApi.getState();
 
     try {
-       await fetch(`/todos/${id}`, {
+      await fetch(`/todos/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${state.userSlice.token}`,
         },
       });
-      
+
       return thunkApi.fulfillWithValue(id);
     } catch (e) {
       return thunkApi.rejectWithValue(e);
@@ -62,17 +72,17 @@ export const deleteTodo = createAsyncThunk(
 
 export const updateTodo = createAsyncThunk(
   "todo/update",
-  async (data: { todoId: string, completed: boolean; }, thunkApi) => {
+  async (data: { todoId: string; completed: boolean }, thunkApi) => {
     const state: any = thunkApi.getState();
 
     try {
-       await fetch(`/todos/${data.todoId}`, {
+      await fetch(`/todos/${data.todoId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${state.userSlice.token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ completed: !data.completed}),
+        body: JSON.stringify({ completed: !data.completed }),
       });
 
       return thunkApi.fulfillWithValue(data.todoId);
