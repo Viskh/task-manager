@@ -18,13 +18,18 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
   const { token, id } = useAppSelector((state) => state.userSlice);
 
   const [todoText, setTodoText] = useState<string>("");
+  const [todoTitle, setTodoTitle] = useState<string>("");
 
   const handleTodoText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTodoText(e.target.value);
   };
 
+  const handleTodoTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setTodoTitle(e.target.value);
+  };
+
   const handleSendTodo = () => {
-    dispatch(createTodo({ todoText, id }));
+    dispatch(createTodo({ todoTitle, todoText, id }));
     setOpenModal(false);
   };
 
@@ -38,7 +43,17 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
         className={styles.add__todo__form}
         onClick={(e) => e.stopPropagation()}
       >
-        <textarea value={todoText} onChange={(e) => handleTodoText(e)} />
+        <input
+          value={todoTitle}
+          onChange={(e) => handleTodoTitle(e)}
+          type="text"
+          placeholder="title"
+        />
+        <textarea
+          value={todoText}
+          placeholder="text"
+          onChange={(e) => handleTodoText(e)}
+        />
         <button onClick={handleSendTodo}>add</button>
       </div>
     </div>

@@ -6,7 +6,7 @@ import {
   loadTodos,
   updateTodo,
 } from "../../redux/reducers/todos/ActionCreators";
-import styles from './todos.module.scss'
+import styles from "./todos.module.scss";
 
 const Todos = () => {
   const dispatch = useAppDispatch();
@@ -39,14 +39,23 @@ const Todos = () => {
       {todos.map((todo) => {
         return (
           <div key={todo._id} className={styles.todo}>
-            <input
-            className={styles.checkbox}
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => handleCheckedTodo(todo._id, todo.completed)}
-            />
-            <p className={styles.todo__text} data-content={todo.text}>{todo.text}</p>
-            <span onClick={() => handleDeleteTodo(todo._id)}><DeleteFilled /></span>
+            <div className={styles.todo__title}>
+              <p>{todo.title}</p>
+            </div>
+            <div className={styles.todo__text}>
+              <input
+                className={styles.checkbox}
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => handleCheckedTodo(todo._id, todo.completed)}
+              />
+              <p className={styles.todo__text__item} data-content={todo.text}>
+                {todo.text}
+              </p>
+              <span onClick={() => handleDeleteTodo(todo._id)}>
+                <DeleteFilled />
+              </span>
+            </div>
           </div>
         );
       })}
