@@ -40,3 +40,22 @@ export const createCategory = createAsyncThunk(
     }
   }
 );
+
+export const removeCategory = createAsyncThunk(
+  "categories/remove",
+  async (id: string, thunkApi) => {
+    const state: any = thunkApi.getState();
+    try {
+      await fetch(`categories/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${state.userSlice.token}`,
+        },
+      });
+
+      return thunkApi.fulfillWithValue(id);
+    } catch (e) {
+      return thunkApi.rejectWithValue(e);
+    }
+  }
+);

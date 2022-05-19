@@ -16,9 +16,12 @@ type ModalProps = {
 const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
   const dispatch = useAppDispatch();
   const { token, id } = useAppSelector((state) => state.userSlice);
-
+  const { loading, error, categories } = useAppSelector(
+    (state) => state.categorySlice
+  );
   const [todoText, setTodoText] = useState<string>("");
   const [todoTitle, setTodoTitle] = useState<string>("");
+  const [todoCategory, setTodoCategory] = useState<string>("");
 
   const handleTodoText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTodoText(e.target.value);
@@ -28,8 +31,12 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
     setTodoTitle(e.target.value);
   };
 
+  const handleSelectCategories = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTodoCategory(e.target.value)
+  }
+
   const handleSendTodo = () => {
-    dispatch(createTodo({ todoTitle, todoText, id }));
+    dispatch(createTodo({ todoTitle, todoText, todoCategory, id }));
     setOpenModal(false);
   };
 
@@ -54,6 +61,17 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
           placeholder="text"
           onChange={(e) => handleTodoText(e)}
         />
+        <select value={todoCategory} onChange={(e) => handleSelectCategories(e)} name="Category">
+          {loading && <span>loadin..</span>}
+          {error && <span>{error}</span>}
+          {categories.map((category) => {
+            return (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            );
+          })}
+        </select>
         <button onClick={handleSendTodo}>add</button>
       </div>
     </div>

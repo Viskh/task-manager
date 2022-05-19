@@ -1,12 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import styles from "./navbar.module.scss";
-import { HomeFilled } from "@ant-design/icons";
+import { DeleteFilled, HomeFilled } from "@ant-design/icons";
 import { logOut } from "../../redux/reducers/auth/ActionCreators";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
   createCategory,
   loadCategories,
+  removeCategory,
 } from "../../redux/reducers/category/ActionCreators";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -33,6 +35,9 @@ const Navbar = () => {
     setCategory("");
   };
 
+  const handleRemoveCategory = (id: string) => {
+    dispatch(removeCategory(id));
+  };
 
   return (
     <div className={styles.navbar}>
@@ -40,12 +45,24 @@ const Navbar = () => {
       <button onClick={handleExitAccount}>exit</button>
       <HomeFilled />
       <ul>
+        <li>
+          <Link to={"/"}>Все дела</Link>
+        </li>
         {loading && <div>loading...</div>}
+        {error && <div>{error}</div>}
         {categories.map((categoryItem) => {
-          if(loading) {
-            
-          }
-          return <li key={categoryItem._id}>{categoryItem.name}</li>;
+          return (
+            <li key={categoryItem._id}>
+              <h3>
+                <Link to={`/category/${categoryItem._id}`}>
+                  {categoryItem.name}
+                </Link>
+              </h3>
+              <span onClick={() => handleRemoveCategory(categoryItem._id)}>
+                <DeleteFilled />
+              </span>
+            </li>
+          );
         })}
       </ul>
       <input

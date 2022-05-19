@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICategory } from "../../../models/ITodo";
-import { createCategory, loadCategories } from "./ActionCreators";
+import { createCategory, loadCategories, removeCategory } from "./ActionCreators";
 
 interface CategoryState {
   categories: ICategory[];
@@ -45,6 +45,21 @@ export const categorySlice = createSlice({
     },
 
     [createCategory.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.loading = false
+      state.error = action.payload
+    },
+
+    [removeCategory.pending.type]: (state) => {
+      state.loading = true
+    },
+
+    [removeCategory.fulfilled.type]: (state, action: PayloadAction<string>) => {
+      state.loading = false
+      state.error = ''
+      state.categories = state.categories.filter(i => i._id !== action.payload)
+    },
+
+    [removeCategory.rejected.type]: (state, action: PayloadAction<string>) => {
       state.loading = false
       state.error = action.payload
     }

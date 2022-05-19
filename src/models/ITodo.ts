@@ -3,7 +3,8 @@ export interface ITodo {
   title: string,
   text: string,
   completed: boolean,
-  user: string
+  user: string,
+  category: string
 }
 
 export interface ICategory {
