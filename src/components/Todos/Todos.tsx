@@ -1,5 +1,6 @@
 import { DeleteFilled } from "@ant-design/icons";
 import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
   deleteTodo,
@@ -10,6 +11,7 @@ import styles from "./todos.module.scss";
 
 const Todos = () => {
   const dispatch = useAppDispatch();
+  const {categoryId} = useParams()
   const { todos, loading, error } = useAppSelector((state) => state.todoSlice);
   const { token, id } = useAppSelector((state) => state.userSlice);
 
@@ -27,6 +29,12 @@ const Todos = () => {
     dispatch(updateTodo({ todoId, completed }));
   };
 
+  const filtredTodos = todos.filter(todo => {
+    if(!categoryId) return true
+
+    return todo.category === categoryId
+  })
+
   if (!token) {
     return <div>сначала войдите в аккаунт</div>;
   }
@@ -36,7 +44,7 @@ const Todos = () => {
       {loading && <div>loading...</div>}
       {error && <div>{error}</div>}
       {!todos.length && !loading && <div>У вас еще нет дел!</div>}
-      {todos.map((todo) => {
+      {filtredTodos.map((todo) => {
         return (
           <div key={todo._id} className={styles.todo}>
             <div className={styles.todo__title}>

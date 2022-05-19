@@ -10,6 +10,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={!token ? <Navigate to='/sign' /> : <Home />} />
+        <Route path="/category/:categoryId" element={!token ? <Navigate to='/sign' /> : <Home />} />
         <Route path="/sign" element={<Sign />} />
         <Route path="*" element={<div>Not found</div>} />
       </Routes>

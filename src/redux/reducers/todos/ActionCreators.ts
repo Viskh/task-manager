@@ -22,7 +22,7 @@ export const loadTodos = createAsyncThunk(
 export const createTodo = createAsyncThunk(
   "todo/create",
   async (
-    data: { todoTitle: string; todoText: string; id: string | null },
+    data: { todoTitle: string; todoText: string; todoCategory: string, id: string | null },
     thunkApi
   ) => {
     const state: any = thunkApi.getState();
@@ -38,6 +38,7 @@ export const createTodo = createAsyncThunk(
           title: data.todoTitle,
           text: data.todoText,
           user: data.id,
+          category: data.todoCategory
         }),
       });
 

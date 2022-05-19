@@ -13,7 +13,23 @@ $hover_color: #1e0f30;
   align-items: center;
   flex-direction: column;
 
+  ul {
+    width: 60%;
+  }
+
   li {
     margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    * {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    span {
+      cursor: pointer;
+    }
   }
 }
