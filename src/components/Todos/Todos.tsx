@@ -1,19 +1,25 @@
 import { DeleteFilled } from "@ant-design/icons";
-import React, { useEffect } from "react";
+import { Modal } from "antd";
+import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { ITodo } from "../../models/ITodo";
 import {
   deleteTodo,
   loadTodos,
   updateTodo,
 } from "../../redux/reducers/todos/ActionCreators";
+import AddTodo from "../Form/AddTodo.";
 import styles from "./todos.module.scss";
 
 const Todos = () => {
   const dispatch = useAppDispatch();
-  const {categoryId} = useParams()
+  const { categoryId } = useParams();
   const { todos, loading, error } = useAppSelector((state) => state.todoSlice);
   const { token, id } = useAppSelector((state) => state.userSlice);
+
+  const [isModal, setModal] = useState<boolean>(false)
+  const onClose = () => setModal(false)
 
   useEffect(() => {
     if (id) {
@@ -29,11 +35,21 @@ const Todos = () => {
     dispatch(updateTodo({ todoId, completed }));
   };
 
-  const filtredTodos = todos.filter(todo => {
-    if(!categoryId) return true
+  const handleModalWindow = (todo: ITodo) => {
+      {/* <Modal
+        visible={isModal}
+        title={todo.title}
+        text={todo.text}
+        category={todo.category}
+        onClose={onClose}
+      /> */}
+  }
 
-    return todo.category === categoryId
-  })
+  const filtredTodos = todos.filter((todo) => {
+    if (!categoryId) return true;
+
+    return todo.category === categoryId;
+  });
 
   if (!token) {
     return <div>сначала войдите в аккаунт</div>;
@@ -46,7 +62,11 @@ const Todos = () => {
       {!todos.length && !loading && <div>У вас еще нет дел!</div>}
       {filtredTodos.map((todo) => {
         return (
-          <div key={todo._id} className={styles.todo}>
+          <div
+            onClick={() => handleModalWindow(todo)}
+            key={todo._id}
+            className={styles.todo}
+          >
             <div className={styles.todo__title}>
               <p>{todo.title}</p>
             </div>
@@ -67,6 +87,7 @@ const Todos = () => {
           </div>
         );
       })}
+
     </>
   );
 };
