@@ -1,0 +1,20 @@
+$display_bg: #20212c;
+$font_color: #cfd4e2;
+
+.modal__window {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal__content {
+    padding: 20px;
+    background-color: $display_bg;
+    color: $font_color;
+  }
+}
