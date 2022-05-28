@@ -1,25 +1,21 @@
-import { DeleteFilled } from "@ant-design/icons";
-import { Modal } from "antd";
-import React, { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { ITodo } from "../../models/ITodo";
-import {
-  deleteTodo,
-  loadTodos,
-  updateTodo,
-} from "../../redux/reducers/todos/ActionCreators";
-import AddTodo from "../Form/AddTodo.";
-import styles from "./todos.module.scss";
+import { loadTodos } from "../../redux/reducers/todos/ActionCreators";
+import Modal from "../Form/Modal";
+import Todo from "./Todo";
 
 const Todos = () => {
   const dispatch = useAppDispatch();
   const { categoryId } = useParams();
+
   const { todos, loading, error } = useAppSelector((state) => state.todoSlice);
+  const { categories } = useAppSelector((state) => state.categorySlice);
   const { token, id } = useAppSelector((state) => state.userSlice);
 
-  const [isModal, setModal] = useState<boolean>(false)
-  const onClose = () => setModal(false)
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [currentTask, setCurrentTask] = useState<ITodo>();
 
   useEffect(() => {
     if (id) {
@@ -27,23 +23,10 @@ const Todos = () => {
     }
   }, [dispatch, id]);
 
-  const handleDeleteTodo = (todoId: string) => {
-    dispatch(deleteTodo(todoId));
+  const handleOpenModal = (task: ITodo) => {
+    setCurrentTask(task);
+    setOpenModal(true);
   };
-
-  const handleCheckedTodo = (todoId: string, completed: boolean) => {
-    dispatch(updateTodo({ todoId, completed }));
-  };
-
-  const handleModalWindow = (todo: ITodo) => {
-      {/* <Modal
-        visible={isModal}
-        title={todo.title}
-        text={todo.text}
-        category={todo.category}
-        onClose={onClose}
-      /> */}
-  }
 
   const filtredTodos = todos.filter((todo) => {
     if (!categoryId) return true;
@@ -60,34 +43,27 @@ const Todos = () => {
       {loading && <div>loading...</div>}
       {error && <div>{error}</div>}
       {!todos.length && !loading && <div>У вас еще нет дел!</div>}
+
       {filtredTodos.map((todo) => {
         return (
-          <div
-            onClick={() => handleModalWindow(todo)}
-            key={todo._id}
-            className={styles.todo}
-          >
-            <div className={styles.todo__title}>
-              <p>{todo.title}</p>
-            </div>
-            <div className={styles.todo__text}>
-              <input
-                className={styles.checkbox}
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => handleCheckedTodo(todo._id, todo.completed)}
-              />
-              <p className={styles.todo__text__item} data-content={todo.text}>
-                {todo.text}
-              </p>
-              <span onClick={() => handleDeleteTodo(todo._id)}>
-                <DeleteFilled />
-              </span>
-            </div>
-          </div>
+          <Todo key={todo._id} todo={todo} handleOpenModal={handleOpenModal} />
         );
       })}
 
+      {openModal && (
+        <Modal setOpenModal={setOpenModal}>
+          <div>
+            <input value={currentTask?.title} type="text" placeholder="title" />
+            <textarea value={currentTask?.text} placeholder="text" />
+            <select value={currentTask?.category} name="Category">
+              {categories?.map((category) => {
+                return <option value={category._id}>{category.name}</option>;
+              })}
+            </select>
+            <button>add</button>
+          </div>
+        </Modal>
+      )}
     </>
   );
 };
