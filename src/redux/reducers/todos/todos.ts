@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITodo } from "../../../models/ITodo";
-import { createTodo, deleteTodo, loadTodos, updateTodo } from "./ActionCreators";
+import { checkTodo, createTodo, deleteTodo, loadTodos, updateTodo } from "./ActionCreators";
 
 interface TodoState {
   todos: ITodo[];
@@ -64,16 +64,39 @@ export const todoSlice = createSlice({
       state.error = action.payload
     },
 
-    [updateTodo.pending.type]: (state) => {
+    [checkTodo.pending.type]: (state) => {
       state.loading = true
     },
 
-    [updateTodo.fulfilled.type]: (state, action: PayloadAction<string>) => {
+    [checkTodo.fulfilled.type]: (state, action: PayloadAction<string>) => {
       state.loading = false
       state.error = ''
       state.todos.map(todo => {
         if(todo._id === action.payload) {
           todo.completed = !todo.completed
+          return todo
+        }
+        return todo
+      })
+    },
+
+    [checkTodo.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.loading = false
+      state.error = action.payload
+    },
+
+    [updateTodo.pending.type]: (state) => {
+      state.loading = true
+    },
+
+    [updateTodo.fulfilled.type]: (state, action: PayloadAction<ITodo>) => {
+      state.loading = false
+      state.error = ''
+      state.todos.map(todo => {
+        if(todo._id === action.payload._id) {
+          todo.title = action.payload.title
+          todo.text = action.payload.text
+          todo.category = action.payload.category
           return todo
         }
         return todo

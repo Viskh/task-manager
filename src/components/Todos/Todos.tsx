@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { ITodo } from "../../models/ITodo";
-import { loadTodos } from "../../redux/reducers/todos/ActionCreators";
+import {
+  loadTodos, updateTodo,
+} from "../../redux/reducers/todos/ActionCreators";
 import Modal from "../Form/Modal";
 import Todo from "./Todo";
 
@@ -15,7 +17,10 @@ const Todos = () => {
   const { token, id } = useAppSelector((state) => state.userSlice);
 
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [currentTask, setCurrentTask] = useState<ITodo>();
+  const [todoText, setTodoText] = useState<string>("");
+  const [todoTitle, setTodoTitle] = useState<string>("");
+  const [todoCategory, setTodoCategory] = useState<string>("");
+  const [todoId, setTodoId] = useState<string>("");
 
   useEffect(() => {
     if (id) {
@@ -23,9 +28,17 @@ const Todos = () => {
     }
   }, [dispatch, id]);
 
-  const handleOpenModal = (task: ITodo) => {
-    setCurrentTask(task);
+  const handleOpenModal = (todo: ITodo) => {
+    setTodoId(todo._id)
+    setTodoText(todo.text);
+    setTodoTitle(todo.title);
+    setTodoCategory(todo.category);
     setOpenModal(true);
+  };
+
+  const handleUpdateTodo = () => {
+    dispatch(updateTodo({ todoId, todoTitle, todoText, todoCategory }));
+    setOpenModal(false)
   };
 
   const filtredTodos = todos.filter((todo) => {
@@ -46,21 +59,38 @@ const Todos = () => {
 
       {filtredTodos.map((todo) => {
         return (
-          <Todo key={todo._id} todo={todo} handleOpenModal={handleOpenModal} />
+          <Todo
+            key={todo._id}
+            todo={todo}
+            handleOpenModal={handleOpenModal}
+          />
         );
       })}
 
       {openModal && (
         <Modal setOpenModal={setOpenModal}>
           <div>
-            <input value={currentTask?.title} type="text" placeholder="title" />
-            <textarea value={currentTask?.text} placeholder="text" />
-            <select value={currentTask?.category} name="Category">
+            <input
+              value={todoTitle}
+              onChange={(e) => setTodoTitle(e.target.value)}
+              type="text"
+              placeholder="title"
+            />
+            <textarea
+              value={todoText}
+              onChange={(e) => setTodoText(e.target.value)}
+              placeholder="text"
+            />
+            <select
+              value={todoCategory}
+              onChange={(e) => setTodoCategory(e.target.value)}
+              name="Category"
+            >
               {categories?.map((category) => {
                 return <option value={category._id}>{category.name}</option>;
               })}
             </select>
-            <button>add</button>
+            <div onClick={handleUpdateTodo}>add</div>
           </div>
         </Modal>
       )}
