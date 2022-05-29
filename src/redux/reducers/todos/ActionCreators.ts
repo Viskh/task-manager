@@ -22,7 +22,12 @@ export const loadTodos = createAsyncThunk(
 export const createTodo = createAsyncThunk(
   "todo/create",
   async (
-    data: { todoTitle: string; todoText: string; todoCategory: string, id: string | null },
+    data: {
+      todoTitle: string;
+      todoText: string;
+      todoCategory: string;
+      id: string | null;
+    },
     thunkApi
   ) => {
     const state: any = thunkApi.getState();
@@ -38,7 +43,7 @@ export const createTodo = createAsyncThunk(
           title: data.todoTitle,
           text: data.todoText,
           user: data.id,
-          category: data.todoCategory
+          category: data.todoCategory,
         }),
       });
 
@@ -71,8 +76,8 @@ export const deleteTodo = createAsyncThunk(
   }
 );
 
-export const updateTodo = createAsyncThunk(
-  "todo/update",
+export const checkTodo = createAsyncThunk(
+  "todo/check",
   async (data: { todoId: string; completed: boolean }, thunkApi) => {
     const state: any = thunkApi.getState();
 
@@ -87,6 +92,42 @@ export const updateTodo = createAsyncThunk(
       });
 
       return thunkApi.fulfillWithValue(data.todoId);
+    } catch (e) {
+      return thunkApi.rejectWithValue(e);
+    }
+  }
+);
+
+export const updateTodo = createAsyncThunk(
+  "todo/update",
+  async (
+    data: {
+      todoId: string;
+      todoTitle: string;
+      todoText: string;
+      todoCategory: string;
+    },
+    thunkApi
+  ) => {
+    const state: any = thunkApi.getState();
+
+    try {
+      const res = await fetch(`/todos/${data.todoId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.userSlice.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: data.todoText,
+          title: data.todoTitle,
+          category: data.todoCategory,
+        }),
+      });
+
+      const todo = await res.json()
+
+      return thunkApi.fulfillWithValue(todo);
     } catch (e) {
       return thunkApi.rejectWithValue(e);
     }

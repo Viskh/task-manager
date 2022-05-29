@@ -3,14 +3,14 @@ import { FC } from "react";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { ITodo } from "../../models/ITodo";
 import {
+  checkTodo,
   deleteTodo,
-  updateTodo,
 } from "../../redux/reducers/todos/ActionCreators";
 import styles from "./todos.module.scss";
 
 type TodoProps = {
   todo: ITodo;
-  handleOpenModal: (task: ITodo) => void;
+  handleOpenModal: Function;
 };
 
 const Todo: FC<TodoProps> = ({ todo, handleOpenModal }) => {
@@ -20,13 +20,17 @@ const Todo: FC<TodoProps> = ({ todo, handleOpenModal }) => {
     dispatch(deleteTodo(todoId));
   };
 
-  const handleCheckedTodo = (todoId: string, completed: boolean) => {
-    dispatch(updateTodo({ todoId, completed }));
-  };
+  const handleCheckTodo = (todoId: string, completed: boolean) => {
+    dispatch(checkTodo({todoId, completed}))
+  }
 
   return (
-    <div className={styles.todo} onClick={() => handleOpenModal(todo)}>
-      <div className={styles.todo__title}>
+    <div className={styles.todo}>
+      <div
+        className={styles.todo__title}
+        data-content={todo.title}
+        onClick={() => handleOpenModal(todo)}
+      >
         <p>{todo.title}</p>
       </div>
       <div className={styles.todo__text}>
@@ -34,9 +38,14 @@ const Todo: FC<TodoProps> = ({ todo, handleOpenModal }) => {
           className={styles.checkbox}
           type="checkbox"
           checked={todo.completed}
-          onChange={() => handleCheckedTodo(todo._id, todo.completed)}
+          onChange={() => handleCheckTodo(todo._id, todo.completed)}
         />
-        <p className={styles.todo__text__item} data-content={todo.text}>
+
+        <p
+          className={styles.todo__text__item}
+          onClick={() => handleOpenModal(todo)}
+          data-content={todo.text}
+        >
           {todo.text}
         </p>
         <span onClick={() => handleDeleteTodo(todo._id)}>
