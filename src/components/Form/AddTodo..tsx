@@ -8,6 +8,7 @@ import React, {
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { createTodo } from "../../redux/reducers/todos/ActionCreators";
 import styles from "./addTodo.module.scss";
+import Modal from "./Modal";
 
 type ModalProps = {
   setOpenModal: Dispatch<SetStateAction<boolean>>;
@@ -32,8 +33,8 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
   };
 
   const handleSelectCategories = (e: ChangeEvent<HTMLSelectElement>) => {
-    setTodoCategory(e.target.value)
-  }
+    setTodoCategory(e.target.value);
+  };
 
   const handleSendTodo = () => {
     dispatch(createTodo({ todoTitle, todoText, todoCategory, id }));
@@ -45,11 +46,8 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
   }
 
   return (
-    <div className={styles.modal__window} onClick={() => setOpenModal(false)}>
-      <div
-        className={styles.add__todo__form}
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Modal setOpenModal={setOpenModal}>
+      <div>
         <input
           value={todoTitle}
           onChange={(e) => handleTodoTitle(e)}
@@ -61,7 +59,11 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
           placeholder="text"
           onChange={(e) => handleTodoText(e)}
         />
-        <select value={todoCategory} onChange={(e) => handleSelectCategories(e)} name="Category">
+        <select
+          value={todoCategory}
+          onChange={(e) => handleSelectCategories(e)}
+          name="Category"
+        >
           {loading && <span>loadin..</span>}
           {error && <span>{error}</span>}
           {categories.map((category) => {
@@ -74,7 +76,7 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
         </select>
         <button onClick={handleSendTodo}>add</button>
       </div>
-    </div>
+    </Modal>
   );
 };
 

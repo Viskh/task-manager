@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { ITodo } from "../../models/ITodo";
 import {
-  loadTodos, updateTodo,
+  loadTodos,
+  updateTodo,
 } from "../../redux/reducers/todos/ActionCreators";
 import Modal from "../Form/Modal";
 import Todo from "./Todo";
@@ -29,7 +30,7 @@ const Todos = () => {
   }, [dispatch, id]);
 
   const handleOpenModal = (todo: ITodo) => {
-    setTodoId(todo._id)
+    setTodoId(todo._id);
     setTodoText(todo.text);
     setTodoTitle(todo.title);
     setTodoCategory(todo.category);
@@ -38,7 +39,7 @@ const Todos = () => {
 
   const handleUpdateTodo = () => {
     dispatch(updateTodo({ todoId, todoTitle, todoText, todoCategory }));
-    setOpenModal(false)
+    setOpenModal(false);
   };
 
   const filtredTodos = todos.filter((todo) => {
@@ -59,11 +60,7 @@ const Todos = () => {
 
       {filtredTodos.map((todo) => {
         return (
-          <Todo
-            key={todo._id}
-            todo={todo}
-            handleOpenModal={handleOpenModal}
-          />
+          <Todo key={todo._id} todo={todo} handleOpenModal={handleOpenModal} />
         );
       })}
 
