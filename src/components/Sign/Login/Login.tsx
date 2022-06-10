@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { login } from "../../redux/reducers/auth/ActionCreators";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
+import { login } from "../../../redux/reducers/auth/ActionCreators";
 
 const Login = () => {
   const dispatch = useAppDispatch();
