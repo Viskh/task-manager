@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
-import { useAppDispatch } from "../../hooks/reduxHooks";
-import { registration } from "../../redux/reducers/auth/ActionCreators";
+import { useAppDispatch } from "../../../hooks/reduxHooks";
+import { registration } from "../../../redux/reducers/auth/ActionCreators";
 
 
 const Registration = () => {
