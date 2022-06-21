@@ -6,7 +6,7 @@ import {
   loadTodos,
   updateTodo,
 } from "../../redux/reducers/todos/ActionCreators";
-import Modal from "../Form/Modal";
+import Modal from "../Layout/Modal";
 import Todo from "./Todo";
 
 const Todos = () => {
