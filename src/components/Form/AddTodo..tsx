@@ -7,8 +7,7 @@ import React, {
 } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { createTodo } from "../../redux/reducers/todos/ActionCreators";
-import styles from "./addTodo.module.scss";
-import Modal from "./Modal";
+import Modal from "../Layout/Modal";
 
 type ModalProps = {
   setOpenModal: Dispatch<SetStateAction<boolean>>;
@@ -47,7 +46,7 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
 
   return (
     <Modal setOpenModal={setOpenModal}>
-      <div>
+      <>
         <input
           value={todoTitle}
           onChange={(e) => handleTodoTitle(e)}
@@ -75,7 +74,7 @@ const AddTodo: FC<ModalProps> = ({ setOpenModal }) => {
           })}
         </select>
         <button onClick={handleSendTodo}>add</button>
-      </div>
+      </>
     </Modal>
   );
 };
